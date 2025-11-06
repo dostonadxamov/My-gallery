@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="uz">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Galereya</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom right, #1a1a2e, #16213e, #0f3460);
+            min-height: 100vh;
+        }
+
+        /* Login Page */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 420px;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-box h1 {
+            text-align: center;
+            color: #1a1a2e;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .login-box .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 35px;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 15px;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #0f3460;
+            box-shadow: 0 0 0 4px rgba(15, 52, 96, 0.1);
+        }
+
+        .btn-login {
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #0f3460, #16213e);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(15, 52, 96, 0.4);
+        }
+
+        .error-msg {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 10px;
+            margin-top: 15px;
+            text-align: center;
+            font-size: 14px;
+            display: none;
+        }
+
+        .error-msg.show {
+            display: block;
+        }
+
+        .demo-info {
+            margin-top: 25px;
+            padding: 18px;
+            background: #f0f4f8;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .demo-info strong {
+            color: #0f3460;
+        }
+
+        /* Home Page */
+        .home-page {
+            display: none;
+            min-height: 100vh;
+        }
+
+        .home-page.show {
+            display: block;
+        }
+
+        .navbar {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .navbar h1 {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .btn-logout {
+            padding: 10px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-logout:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .main-content {
+            padding: 40px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .upload-area {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px dashed rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 50px 30px;
+            text-align: center;
+            margin-bottom: 50px;
+            transition: all 0.3s;
+        }
+
+        .upload-area:hover {
+            border-color: rgba(255, 255, 255, 0.6);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .upload-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+
+        .upload-area h2 {
+            color: white;
+            margin-bottom: 10px;
+            font-size: 22px;
+        }
+
+        .upload-area p {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        .btn-upload {
+            padding: 14px 40px;
+            background: linear-gradient(135deg, #e94560, #d63447);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-upload:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(233, 69, 96, 0.4);
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .gallery-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .gallery-header h2 {
+            color: white;
+            font-size: 28px;
+        }
+
+        .media-count {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 18px;
+            border-radius: 20px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .gallery-item {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .gallery-item img,
+        .gallery-item video {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            display: block;
+            transition: all 0.4s;
+        }
+
+        .gallery-item:hover img,
+        .gallery-item:hover video {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+            opacity: 0;
+            transition: all 0.3s;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .media-info {
+            color: white;
+            flex: 1;
+        }
+
+        .media-name {
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .media-date {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btn-delete {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 45px;
+            height: 45px;
+            background: rgba(233, 69, 96, 0.9);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        .gallery-item:hover .btn-delete {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .btn-delete:hover {
+            background: #c33;
+            transform: scale(1.1) rotate(90deg);
+        }
+
+        .empty-gallery {
+            text-align: center;
+            padding: 100px 30px;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .empty-gallery.hide {
+            display: none;
+        }
+
+        .empty-gallery svg {
+            width: 150px;
+            height: 150px;
+            margin-bottom: 30px;
+            opacity: 0.3;
+        }
+
+        .empty-gallery h3 {
+            font-size: 26px;
+            margin-bottom: 15px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .empty-gallery p {
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px;
+            }
+
+            .navbar h1 {
+                font-size: 20px;
+            }
+
+            .main-content {
+                padding: 30px 20px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 20px;
+            }
+
+            .gallery-item img,
+            .gallery-item video {
+                height: 280px;
+            }
+
+            .upload-area {
+                padding: 40px 20px;
+            }
+
+            .gallery-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Login Page -->
+    <div class="login-container" id="loginPage">
+        <div class="login-box">
+            <h1>🔐 Media Galereya</h1>
+            <p class="subtitle">Kirish uchun ma'lumotlaringizni kiriting</p>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>Login</label>
+                    <input type="text" id="username" placeholder="Login" required
+                        autocomplete="username">
+                </div>
+                <div class="form-group">
+                    <label>Parol</label>
+                    <input type="password" id="password" placeholder="Parol" required
+                        autocomplete="current-password">
+                </div>
+                <button type="submit" class="btn-login">Kirish</button>
+                <div class="error-msg" id="errorMsg"></div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Home Page -->
+    <div class="home-page" id="homePage">
+        <nav class="navbar">
+            <h1>Mening Galereyam</h1>
+            <button class="btn-logout" id="btnLogout">Chiqish</button>
+        </nav>
+
+        <div class="main-content">
+            <div class="upload-area">
+                <div class="upload-icon">📤</div>
+                <h2>Fayl yuklash</h2>
+                <p>Rasm yoki video yuklash uchun tugmani bosing</p>
+                <button class="btn-upload" id="btnUpload">
+                    <span>➕</span>
+                    <span>Fayl tanlash</span>
+                </button>
+                <input type="file" id="fileInput" class="file-input" accept="image/*,video/*" multiple>
+            </div>
+
+            <div class="gallery-header">
+                <h2>Galereya</h2>
+                <div class="media-count" id="mediaCount">0 ta fayl</div>
+            </div>
+
+            <div class="gallery-grid" id="galleryGrid"></div>
+
+            <div class="empty-gallery" id="emptyGallery">
+                <svg fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd"
+                        d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                        clip-rule="evenodd" />
+                </svg>
+                <h3>Hozircha fayllar yo'q</h3>
+                <p>Yuqoridan birinchi faylingizni yuklang</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        'use strict';
+
+        // ==================== KONFIGURATSIYA ====================
+        const CONFIG = {
+            credentials: { username: 'doston', password: '18122008' },
+            storageKey: 'mediaGallery_data_v1',
+            maxFileSize: 10 * 1024 * 1024 // 10MB
+        };
+
+        // ==================== ELEMENTLAR ====================
+        const $ = {
+            loginPage: document.getElementById('loginPage'),
+            homePage: document.getElementById('homePage'),
+            loginForm: document.getElementById('loginForm'),
+            username: document.getElementById('username'),
+            password: document.getElementById('password'),
+            errorMsg: document.getElementById('errorMsg'),
+            btnLogout: document.getElementById('btnLogout'),
+            btnUpload: document.getElementById('btnUpload'),
+            fileInput: document.getElementById('fileInput'),
+            galleryGrid: document.getElementById('galleryGrid'),
+            emptyGallery: document.getElementById('emptyGallery'),
+            mediaCount: document.getElementById('mediaCount')
+        };
+
+        let mediaData = [];
+
+        // ==================== INIT ====================
+        function init() {
+            setupEvents();
+            loadFromStorage();
+
+            const isLogged = sessionStorage.getItem('logged');
+            if (isLogged === 'yes') {
+                showHome();
+            }
+        }
+
+        // ==================== EVENTS ====================
+        function setupEvents() {
+            $.loginForm.addEventListener('submit', handleLogin);
+            $.btnLogout.addEventListener('click', handleLogout);
+            $.btnUpload.addEventListener('click', () => $.fileInput.click());
+            $.fileInput.addEventListener('change', handleFiles);
+        }
+
+        // ==================== LOGIN ====================
+        function handleLogin(e) {
+            e.preventDefault();
+
+            const user = $.username.value.trim();
+            const pass = $.password.value.trim();
+
+            if (user === CONFIG.credentials.username && pass === CONFIG.credentials.password) {
+                sessionStorage.setItem('logged', 'yes');
+                hideError();
+                showHome();
+                $.loginForm.reset();
+            } else {
+                showError('Login yoki parol xato!');
+            }
+        }
+
+        function handleLogout() {
+            sessionStorage.removeItem('logged');
+            showLogin();
+            $.loginForm.reset();
+        }
+
+        function showError(msg) {
+            $.errorMsg.textContent = '❌ ' + msg;
+            $.errorMsg.classList.add('show');
+            setTimeout(hideError, 3000);
+        }
+
+        function hideError() {
+            $.errorMsg.classList.remove('show');
+        }
+
+        // ==================== NAVIGATION ====================
+        function showHome() {
+            $.loginPage.style.display = 'none';
+            $.homePage.classList.add('show');
+            renderGallery();
+        }
+
+        function showLogin() {
+            $.loginPage.style.display = 'flex';
+            $.homePage.classList.remove('show');
+        }
+
+        // ==================== FILE HANDLING ====================
+        function handleFiles(e) {
+            const files = Array.from(e.target.files);
+
+            if (files.length === 0) return;
+
+            files.forEach(file => {
+                if (!file.type.startsWith('image/') && !file.type.startsWith('video/')) {
+                    alert(`"${file.name}" qo'llab-quvvatlanmaydi`);
+                    return;
+                }
+
+                if (file.size > CONFIG.maxFileSize) {
+                    alert(`"${file.name}" juda katta (max 10MB)`);
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    const item = {
+                        id: Date.now() + '_' + Math.random().toString(36).substr(2, 9),
+                        type: file.type.startsWith('image/') ? 'image' : 'video',
+                        data: ev.target.result,
+                        name: file.name,
+                        date: new Date().toLocaleString('uz-UZ')
+                    };
+
+                    mediaData.push(item);
+                    saveToStorage();
+                    renderGallery();
+                };
+                reader.readAsDataURL(file);
+            });
+
+            $.fileInput.value = '';
+        }
+
+        // ==================== RENDER ====================
+        function renderGallery() {
+            $.galleryGrid.innerHTML = '';
+
+            if (mediaData.length === 0) {
+                $.emptyGallery.classList.remove('hide');
+                $.mediaCount.textContent = '0 ta fayl';
+                return;
+            }
+
+            $.emptyGallery.classList.add('hide');
+            $.mediaCount.textContent = `${mediaData.length} ta fayl`;
+
+            mediaData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'gallery-item';
+
+                const mediaEl = item.type === 'image'
+                    ? `<img src="${item.data}" alt="${item.name}" loading="lazy">`
+                    : `<video src="${item.data}" controls preload="metadata"></video>`;
+
+                div.innerHTML = `
+                    ${mediaEl}
+                    <div class="gallery-overlay">
+                        <div class="media-info">
+                            <div class="media-name">${item.name}</div>
+                            <div class="media-date">${item.date}</div>
+                        </div>
+                    </div>
+                    <button class="btn-delete" data-id="${item.id}">×</button>
+                `;
+
+                div.querySelector('.btn-delete').addEventListener('click', () => deleteItem(item.id));
+
+                $.galleryGrid.appendChild(div);
+            });
+        }
+
+        // ==================== DELETE ====================
+        function deleteItem(id) {
+            if (confirm('Bu faylni o\'chirmoqchimisiz?')) {
+                mediaData = mediaData.filter(item => item.id !== id);
+                saveToStorage();
+                renderGallery();
+            }
+        }
+
+        // ==================== STORAGE ====================
+        function saveToStorage() {
+            localStorage.setItem(CONFIG.storageKey, JSON.stringify(mediaData));
+        }
+
+        function loadFromStorage() {
+            const saved = localStorage.getItem(CONFIG.storageKey);
+            if (saved) {
+                mediaData = JSON.parse(saved);
+            } else {
+                mediaData = [];
+            }
+        }
+
+
+        // ==================== START ====================
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+    </script>
+</body>
+
+</html>
